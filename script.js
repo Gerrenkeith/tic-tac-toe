@@ -65,7 +65,7 @@ const displayGame = () => {
 
     const justBoard = board.getBoard();
 
-       console.log(board.getBoard())
+       console.log(justBoard)
 
     const body = document.querySelector("body")
 
@@ -74,7 +74,30 @@ const displayGame = () => {
        function handleClick(event) {
             const elementId = event.target.id;
 
+
             console.log(elementId)
+
+            const numStr = elementId.toString();
+
+            const digitsArr = numStr.split('');
+
+            const rowColumnArr = digitsArr.map(Number)
+
+            console.log(rowColumnArr)
+
+            console.log(controller.getActivePlayer().token)
+
+            board.dropToken(rowColumnArr[0], rowColumnArr[1], controller.getActivePlayer().token )
+
+            controller.switchPlayerTurn()
+
+            controller.printNewRound()
+
+            if(justBoard[rowColumnArr[0]][rowColumnArr[1]] === 1){
+                this.textContent = "X";
+            }else if(justBoard[rowColumnArr[0]][rowColumnArr[1]] === 2){
+                this.textContent = "O";
+            }
        }
 
 
