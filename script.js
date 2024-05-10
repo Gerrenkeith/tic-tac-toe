@@ -66,9 +66,18 @@ const displayGame = () => {
     const justBoard = board.getBoard();
 
        console.log(board.getBoard())
-   const body = document.querySelector("body")
+
+    const body = document.querySelector("body")
 
        console.log(body)
+
+       function handleClick(event) {
+            const elementId = event.target.id;
+
+            console.log(elementId)
+       }
+
+
 
        for (let i = 0; i < justBoard.length; i++) {
           const div = document.createElement('div')
@@ -78,6 +87,8 @@ const displayGame = () => {
                const span = document.createElement('span')
                div.appendChild(span)
                span.id = `${i}${j}`
+
+                span.addEventListener("click", handleClick);
            }
        }
 
