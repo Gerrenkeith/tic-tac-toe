@@ -9,7 +9,21 @@ const gameBoard = () => {
             board[i][j] = 0;
         }
     }
-    console.log(board)
+
+    const getBoard = () => board;
+    
+
+    const dropToken = (row, column, player ) => {
+        if(board[row][column] === 0){
+            board[row][column] = player;
+            }
+    }
+
+    const printBoard = () => console.log(board)
+    
+    
+        return { getBoard, dropToken, printBoard}
 }
 
-gameBoard()
+
+
