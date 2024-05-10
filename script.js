@@ -56,3 +56,33 @@ const gameController = (playerOneName = "Player One", playerTwoName = "Player Tw
 
     return { board, players, switchPlayerTurn, getActivePlayer, printNewRound }
 }
+
+
+const displayGame = () => {
+    const board = gameBoard();
+
+    const controller = gameController()
+
+    const justBoard = board.getBoard();
+
+       console.log(board.getBoard())
+   const body = document.querySelector("body")
+
+       console.log(body)
+
+       for (let i = 0; i < justBoard.length; i++) {
+          const div = document.createElement('div')
+           body.appendChild(div)
+           body.id = `${i}`
+           for(let j = 0; j < justBoard[i].length; j++){
+               const span = document.createElement('span')
+               div.appendChild(span)
+               span.id = `${i}${j}`
+           }
+       }
+
+
+
+   }
+
+   displayGame()
