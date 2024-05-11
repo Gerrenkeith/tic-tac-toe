@@ -71,6 +71,17 @@ const displayGame = () => {
 
        console.log(body)
 
+    const div = document.createElement('div');
+    body.appendChild(div);
+    div.id = "playerNames";
+
+    const player1 = document.createElement('h2')
+    const player2 = document.createElement('h2');
+    div.appendChild(player1);
+    div.appendChild(player2);
+    player1.textContent = controller.players[0].name;
+    player2.textContent = controller.players[1].name
+
        function handleClick(event) {
             const elementId = event.target.id;
 
@@ -89,14 +100,18 @@ const displayGame = () => {
 
             board.dropToken(rowColumnArr[0], rowColumnArr[1], controller.getActivePlayer().token )
 
-            controller.switchPlayerTurn()
+            
 
-            controller.printNewRound()
+            
 
-            if(justBoard[rowColumnArr[0]][rowColumnArr[1]] === 1){
+            if(justBoard[rowColumnArr[0]][rowColumnArr[1]] === 1 && this.textContent === ""){
                 this.textContent = "X";
-            }else if(justBoard[rowColumnArr[0]][rowColumnArr[1]] === 2){
+                controller.printNewRound();
+                controller.switchPlayerTurn();
+            }else if(justBoard[rowColumnArr[0]][rowColumnArr[1]] === 2 && this.textContent === ""){
                 this.textContent = "O";
+                controller.printNewRound();
+                controller.switchPlayerTurn();
             }
        }
 
