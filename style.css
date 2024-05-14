@@ -1,23 +1,19 @@
-* {
-    text-align: center;
-
-}
-
-div {
+html {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .board {
     border: 1px solid black;
-    width: 600px;
-    height: 150px;
-    display: flex;
-}
-
-#playerNames {
-    display: flex;
-    justify-content: center;
-    gap: 90px;
-}
-
-span {
-    border: 5px solid black;
-    height: 150px;
-    width: 200px;
-}
+    height: 24.3vh;
+    width: 18vw;
+    display: grid;
+    grid-template-columns: 75px 75px 75px;
+    grid-template-rows: 75px 75px 75px;
+  }
+  
+  .cell {
+    border: 1px solid black;
+    width: 70px;
+    height: 70px;
+    }

@@ -1,137 +1,83 @@
-const gameBoard = () => {
-    const rows = 3;
-    const columns = 3;
-    const board = [];
-
-    for( let i = 0; i < rows; i++){
-        board[i] = [];
-        for( let j = 0; j < columns; j++){
-            board[i][j] = 0;
+const TicTacToe = (() => {
+    let board = ['', '', '', '', '', '', '', '', ''];
+    let currentPlayer = 'X';
+    let gameOver = false;
+  
+    const checkWin = () => {
+      const winningCombos = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+        [0, 4, 8], [2, 4, 6] // diagonals
+      ];
+  
+      return winningCombos.some(combo => {
+        const [a, b, c] = combo;
+        return board[a] !== '' && board[a] === board[b] && board[a] === board[c];
+      });
+    };
+  
+    const playerMove = (position) => {
+      if (!gameOver && board[position] === '') {
+        board[position] = currentPlayer;
+        document.getElementById('cell-' + position).innerText = currentPlayer;
+        if (checkWin()) {
+          document.getElementById('result').innerText = `Player ${currentPlayer} wins!`;
+          gameOver = true;
+        } else if (board.every(cell => cell !== '')) {
+          document.getElementById('result').innerText = 'It\'s a draw!';
+          gameOver = true;
+        } else {
+          currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
         }
-    }
-
-    const getBoard = () => board;
-    
-
-    const dropToken = (row, column, player ) => {
-        if(board[row][column] === 0){
-            board[row][column] = player;
-            }
-    }
-
-    const printBoard = () => console.log(board)
-    
-    
-        return { getBoard, dropToken, printBoard}
-}
-
-
-const gameController = (playerOneName = "Player One", playerTwoName = "Player Two") => {
-
-    const board = gameBoard();
-
-    const players = [
-        {
-            name: playerOneName,
-            token: 1
-        }, 
-        {
-            name: playerTwoName,
-            token: 2
-        }
-    ]
-
-    let activePlayer = players[0]
-
-    const switchPlayerTurn = () => {
-        activePlayer = activePlayer === players[0] ? players[1] : players[0];
-      };
-
-    const getActivePlayer = () => activePlayer;
-
-    const printNewRound = () => {
-        board.printBoard();
-        console.log(`${getActivePlayer().name}'s turn.`);
-      };
-
-    return { board, players, switchPlayerTurn, getActivePlayer, printNewRound }
-}
-
-
-const displayGame = () => {
-    const board = gameBoard();
-
-    const controller = gameController()
-
-    const justBoard = board.getBoard();
-
-       console.log(justBoard)
-
-    const body = document.querySelector("body")
-
-       console.log(body)
-
-    const div = document.createElement('div');
-    body.appendChild(div);
-    div.id = "playerNames";
-
-    const player1 = document.createElement('h2')
-    const player2 = document.createElement('h2');
-    div.appendChild(player1);
-    div.appendChild(player2);
-    player1.textContent = controller.players[0].name;
-    player2.textContent = controller.players[1].name
-
-       function handleClick(event) {
-            const elementId = event.target.id;
-
-
-            console.log(elementId)
-
-            const numStr = elementId.toString();
-
-            const digitsArr = numStr.split('');
-
-            const rowColumnArr = digitsArr.map(Number)
-
-            console.log(rowColumnArr)
-
-            console.log(controller.getActivePlayer().token)
-
-            board.dropToken(rowColumnArr[0], rowColumnArr[1], controller.getActivePlayer().token )
-
-            
-
-            
-
-            if(justBoard[rowColumnArr[0]][rowColumnArr[1]] === 1 && this.textContent === ""){
-                this.textContent = "X";
-                controller.printNewRound();
-                controller.switchPlayerTurn();
-            }else if(justBoard[rowColumnArr[0]][rowColumnArr[1]] === 2 && this.textContent === ""){
-                this.textContent = "O";
-                controller.printNewRound();
-                controller.switchPlayerTurn();
-            }
-       }
-
-
-
-       for (let i = 0; i < justBoard.length; i++) {
-          const div = document.createElement('div')
-           body.appendChild(div)
-           body.id = `${i}`
-           for(let j = 0; j < justBoard[i].length; j++){
-               const span = document.createElement('span')
-               div.appendChild(span)
-               span.id = `${i}${j}`
-
-                span.addEventListener("click", handleClick);
-           }
-       }
-
-
-
-   }
-
-   displayGame()
+      }
+    };
+  
+    const reset = () => {
+      board = ['', '', '', '', '', '', '', '', ''];
+      currentPlayer = 'X';
+      gameOver = false;
+      document.getElementById('result').innerText = '';
+      Array.from(document.getElementsByClassName('cell')).forEach(cell => cell.innerText = '');
+    };
+  
+    const createBoardUI = () => {
+      const container = document.createElement('div');
+      container.classList.add('container');
+  
+      const heading = document.createElement('h1');
+      heading.textContent = 'Tic Tac Toe';
+      container.appendChild(heading);
+  
+      const boardElement = document.createElement('div');
+      boardElement.classList.add('board');
+      for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.id = 'cell-' + i;
+        cell.addEventListener('click', () => playerMove(i));
+        boardElement.appendChild(cell);
+      }
+      container.appendChild(boardElement);
+  
+      const result = document.createElement('div');
+      result.id = 'result';
+      result.classList.add('result');
+      container.appendChild(result);
+  
+      const resetButton = document.createElement('button');
+      resetButton.textContent = 'Reset';
+      resetButton.addEventListener('click', reset);
+      container.appendChild(resetButton);
+  
+      document.body.appendChild(container);
+    };
+  
+    return {
+      init: () => {
+        createBoardUI();
+      }
+    };
+  })();
+  
+  TicTacToe.init();
+  
